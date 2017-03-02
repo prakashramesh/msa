@@ -1,0 +1,54 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+
+
+<body>	
+	
+	<h1 th:inline="text">[[${#httpServletRequest.remoteUser}]]'s Cart</h1>
+    <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+    </form>
+    
+    <h1 th:if="${cartItems}">Items in Cart</h1>
+    
+     <h1 th:if="!${cartItems}">There are no items present in the cart</h1>
+	
+
+	<div th:if="${cartItems}">
+		
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					
+					<th>Product</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="cartItem : ${cartItems}">
+					
+					<td th:text="${cartItem.productName}"></td>
+					<td>$<span th:text="${cartItem.price}"></span></td>
+					<th><input type="button" th:onclick="'javascript:removeItem(' + ${cartItem.id} + ')'" value="Remove Item"/></th>
+					
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div style="text-align: right">
+		Options: <a th:href="@{/}">Home</a> | <a
+			th:href="@{/browse}">Browse Products</a>
+	</div>
+
+	<div th:replace="footer :: copy"></div>
+</body>
+</html>

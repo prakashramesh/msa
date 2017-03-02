@@ -1,0 +1,51 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="header :: copy"></head>
+
+
+
+<body>	
+	
+	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+    </form>
+    
+    <h1>Products Available</h1>
+	
+
+	<div th:if="${products}">
+		
+
+		<table class="table table-striped">
+			<thead>
+				<tr>					
+					<th>Products</th>
+					<th>Price</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr th:each="product : ${products}">
+					<td th:text="${product.id}"></td>
+					<td th:text="${product.description}"></td>
+					<td>$<span th:text="${product.price}"></span></td>
+					<th><input type="button" th:onclick="'javascript:addItem(' + ${product.id} + ')'" value="Add To Cart"/></th>
+					
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div style="text-align: right">
+		Options: <a th:href="@{/}">Home</a> | <a
+			th:href="@{/viewCart}">View Cart</a>
+	</div>
+
+	<div th:replace="footer :: copy"></div>
+</body>
+</html>
